@@ -1,0 +1,15 @@
+id,app_label,model
+1,mapp,students
+2,cart,cart
+3,cart,order
+4,accounts,customuser
+5,products,category
+6,products,product
+7,admin,logentry
+8,auth,permission
+9,auth,group
+10,contenttypes,contenttype
+11,sessions,session
+12,mapp,item
+13,mapp,orderitem
+14,mapp,order

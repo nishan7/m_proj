@@ -1,0 +1,34 @@
+.home-page-list {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    padding-left: 0;
+    margin-bottom: 20px;
+}
+
+.home-page-image {
+    width: 100%;
+    height: 15vw;
+    object-fit: cover;
+}
+
+.detail-page-cover {
+    width: 100%;
+    height: 25vw;
+    object-fit: cover;
+}
+
+.mw-80{
+    height: 80% !important;
+}
+
+html,
+body {
+    height: 100vh
+    /* The html and body elements cannot have any padding or margin. */
+}
+

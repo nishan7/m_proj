@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hi</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"/>
+</head>
+<body>
+Hello
+<em>My App</em>
+<!--{{ rec }}-->
+<img src="{% static 'images/logo.jpg' %}" alt="My image">
+
+<div class="table">
+    {% if rec %}
+    <table>
+        <thead>
+        <th>Sid</th>
+        <th>Name</th>
+        <th>Number</th>
+        </thead>
+        {% for item in rec%}
+        <tr>
+            <td> {{item.sid}}</td>
+            <td> {{item.name}}</td>
+            <td> {{item.number}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    {% else %}
+    <p> No records</p>
+    {% endif %}
+
+</div>
+</body>
+</html>

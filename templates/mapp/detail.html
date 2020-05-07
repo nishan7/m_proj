@@ -1,0 +1,188 @@
+{% extends "mapp/base.html" %}
+{% load get_category %}
+{% load crispy_forms_tags %}
+{% load bootstrap4 %}       {# import bootstrap4/bootstrap3 #}
+{% bootstrap_css %}         {# Embed Bootstrap CSS #}
+{% bootstrap_javascript jquery='full' %}  {# Embed Bootstrap JS+jQuery #}
+{{ form.media }}            {# Adds date-picker required JS and CSS #}
+{% block content %}
+    {#    Popup for type of booking #}
+    <div class="modal fade" id="serviceChooser" tabindex="-1" role="dialog"
+         aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content ">
+                <div class="modal-header text-center">
+                    <h4 class="modal-title w-100 font-weight-bold">Select the services</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form class="mr-3 ml-3" method="post">
+                    {% csrf_token %}
+                    {% crispy form %}
+                    {#                    {{ form|crispy }}#}
+                    {#                    {{ form.as_p }}#}
+                    {#                    {% crispy form form.helper %}#}
+                    {#                    <div class="modal-body mx-3">#}
+                    {#                        {{ object.tite }} by {{ object.getHandymanName }}#}
+                    {#                        {{ object. }}#}
+                    {#                        {% for service in object.getServices %}#}
+                    {#                            <div class="custom-control custom-checkbox">#}
+                    {#                                <input type="checkbox" class="custom-control-input" id="{{ service.nameSlug}}"#}
+                    {#                                       name="{{ service.nameSlug}}">#}
+                    {#                                <label class="custom-control-label"#}
+                    {#                                       for="{{ service.nameSlug }}">{{ service.name }},{{ service.price }}</label>#}
+                    {#                                <br>#}
+                    {#                            </div>#}
+                    {#                        {% empty %}#}
+                    {#                            No values#}
+                    {#                        {% endfor %}#}
+                    {##}
+                    {##}
+                    {#                    </div>#}
+                    {##}
+                    <div class="modal-footer d-flex justify-content-center">
+                        <button class="btn btn-default" type="submit">Book</button>
+                    </div>
+                    <P>Note: Pricing may vary accordance to actual work and alternation required. Custom pricing is
+                        determined according to the task</P>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <main class="mt-5 pt-4">
+        <div class="container dark-grey-text mt-5">
+
+            <!--Grid row-->
+            <div class="row wow fadeIn">
+
+                <!--Grid column-->
+                <div class="col-md-6 mb-4">
+
+                    <img src="/media/{{ object.image }}" class="detail-page-cover" alt="no image"/>
+                </div>
+                <!--Grid column-->
+
+                <!--Grid column-->
+                <div class="col-md-6 mb-4">
+
+                    <!--Content-->
+                    <div class="p-4">
+
+                        <div class="mb-3">
+                            <a href="{% url 'mapp:category-home' category=object.category %}">
+                                <span class="badge purple mr-1">{{ object.get_category_display }}</span>
+                            </a>
+                        </div>
+
+                        <p class="lead">
+                            {% if object.discount_price %}
+                                <span class="mr-1">
+                                    <del>${{ object.price }}</del>
+                                </span>
+                                <span>${{ object.discount_price }}</span>
+                            {% else %}
+                                <span>${{ object.price }}</span>
+                            {% endif %}
+                        </p>
+
+                        <p class="lead font-weight-bold">Description</p>
+
+                        <p>{{ object.description }}</p>
+
+                        {% comment %} <form class="d-flex justify-content-left">
+              <!-- Default input -->
+              <input type="number" value="1" aria-label="Search" class="form-control" style="width: 100px">
+              <button class="btn btn-primary btn-md my-0 p" type="submit">
+                Add to cart
+                <i class="fas fa-shopping-cart ml-1"></i>
+              </button>
+
+            </form> {% endcomment %}
+                        {#              {{object.is_booked}}#}
+                        {#                    {{ user }}#}
+                        {#                    {{ object }}#}
+                        {#                    {{ object.handyman }}#}
+                        {% is_booked user object object.handyman as booking_status %}
+
+                        {% if  booking_status %}
+                            <a href="{{ object.unbook }}" class="btn btn-danger btn-md my-0 p">
+                                Unbook
+                                <i class="fas fa-shopping-cart ml-1"></i>
+                            </a>
+                        {% else %}
+                            {#                            <a href="{{ object.book }}" class="btn btn-primary btn-md my-0 p">#}
+                            <a href="" data-toggle="modal" data-target="#serviceChooser"
+                               class="btn btn-primary btn-md my-0 p">
+                                Book
+                                <i class="fas fa-shopping-cart ml-1"></i>
+                            </a>
+
+                        {% endif %}
+
+
+                    </div>
+                    <!--Content-->
+
+                </div>
+                <!--Grid column-->
+
+            </div>
+            <!--Grid row-->
+
+            <hr>
+
+            <!--Grid row-->
+            <div class="row d-flex justify-content-center wow fadeIn">
+
+                <!--Grid column-->
+                <div class="col-md-6 text-center">
+
+                    <h4 class="my-4 h4">Handyman</h4>
+                    <p class="text-decoration-none">
+                        <a href="{% url 'mapp:portfolio' id=object.handyman_id %}">
+                            {{ object.handyman.get_cache_name }}
+                        </a>
+                    </p>
+                </div>
+                <!--Grid column-->
+
+            </div>
+            <!--Grid row-->
+
+            {#      <!--Grid row-->#}
+            {#      <div class="row wow fadeIn">#}
+            {##}
+            {#        <!--Grid column-->#}
+            {#        <div class="col-lg-4 col-md-12 mb-4">#}
+            {##}
+            {#          <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Products/11.jpg" class="img-fluid" alt="">#}
+            {##}
+            {#        </div>#}
+            {#        <!--Grid column-->#}
+            {##}
+            {#        <!--Grid column-->#}
+            {#        <div class="col-lg-4 col-md-6 mb-4">#}
+            {##}
+            {#          <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Products/12.jpg" class="img-fluid" alt="">#}
+            {##}
+            {#        </div>#}
+            {#        <!--Grid column-->#}
+            {##}
+            {#        <!--Grid column-->#}
+            {#        <div class="col-lg-4 col-md-6 mb-4">#}
+            {##}
+            {#          <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Products/13.jpg" class="img-fluid" alt="">#}
+            {##}
+            {#        </div>#}
+            {#        <!--Grid column-->#}
+            {##}
+            {#      </div>#}
+            <!--Grid row-->
+
+        </div>
+    </main>
+
+{% endblock content %}

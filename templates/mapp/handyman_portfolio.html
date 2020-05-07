@@ -1,0 +1,51 @@
+{% extends "mapp/base.html" %}
+{% load get_category %}
+
+{% block head_title %}
+    {{ user.get_cache_name }}
+{% endblock %}
+
+{% block content %}
+
+
+
+    <div class="col-md-12 mb-4  align-items-center      ">
+        <div class="flex-center">
+            <h3 class="d-flex flex-center a mr-xl-2 ml-xl-2 mt-4 mb-4">
+                <span class="text-xl-center ">{{ handyman.get_cache_name }} </span>
+                {#            <span class="badge badge-primary  badge-pill">{{ object_list | length }}</span>#}
+            </h3>
+            <br>
+        </div>
+        <div class="flex-center lh-condensed">
+            <ul class="list-group w-50 "> {#             mr-xl-2 ml-xl-2 mb-3 z-depth-1#}
+{#                <li class="list-group-item d-flex justify-content-between lh-condensed ">#}
+{#                    <div>#}
+{#                        <h6 class="my-0 font-weight-bold">{{ assigm.advertisment_id }}</h6>#}
+{#                        <small class="text-muted">{{ assigm.appointment_date }}</small>#}
+{#                        <div class="text-sm-center ">At: {{ assigm.address }}</div>#}
+                        {#                            <br>#}
+{#                    </div>#}
+{##}
+{#                </li>#}
+
+                <li class="list-group-item border d-flex justify-content-between lh-condensed">
+                    Name: {{ handyman.get_cache_name }}
+                </li>
+                <li class="list-group-item d-flex border justify-content-between lh-condensed">
+                    Profession: {{ handyman.job }}
+                </li>
+                <li class="list-group-item d-flex border justify-content-between lh-condensed">
+                    Email: {{ handyman.email }}
+                </li>
+                <li class="list-group-item d-flex  border justify-content-between lh-condensed">
+                    Date Joined: {{ handyman.get_date_joined_short }}
+                </li>
+
+
+            </ul>
+        </div>
+
+    </div>
+{% endblock content %}
+
