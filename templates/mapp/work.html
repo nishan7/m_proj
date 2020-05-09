@@ -15,6 +15,9 @@
             <span class="badge badge-primary  badge-pill">{{ object_list | length }}</span>
         </h4>
 
+        <h3 align="center"><a href="{% url 'mapp:advertisment_form'%}">
+            <span class="badge badge-success  badge-pill">Add More Advertisments</span></a></h3>
+
         <ul class="list-group mr-xl-2 ml-xl-2 mb-3 z-depth-1">
             {% for assigm in object_list %}
                 {#                <a>#}

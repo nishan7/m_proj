@@ -64,12 +64,10 @@ def adv_view(request):
                 advObj.services.add(s)
 
             advObj.save()
-            messages.success(request, 'Successfully saved')
+            messages.success(request, 'Advertisment Form Successfully saved')
+            return redirect('mapp:home')
         else:
             messages.warning(request,'There is a problem with the form')
-
-        # print(advForm)
-        # print(formset)
         return redirect('mapp:advertisment_form')
 
     return render(request, template_name, {
