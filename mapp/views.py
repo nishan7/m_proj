@@ -1,5 +1,6 @@
 from datetime import datetime
 import reusables
+from django.forms import formset_factory
 from django.conf import settings
 from django.contrib import messages
 from termcolor import cprint
@@ -32,11 +33,100 @@ def portfolioView(request, **kwargs):
                   {'handyman': CustomUser.objects.get(id=kwargs['id'])})
 
 
-def adv_view(request):
+def adv_edit_view(request, **kwargs):
     template_name = 'mapp/advertisment_form.html'
     if request.method == 'GET':
-        advForm = AdverstimentForm(request.GET or None)
-        formset = service_formset()
+        if 'id' in kwargs.keys():
+            id = kwargs['id']
+            adv_obj = Advertisment.objects.get(pk=id)
+            advForm = AdverstimentForm(initial={'title': adv_obj.title,
+                                                'image': adv_obj.image,
+                                                'task': adv_obj.task,
+                                                'description': adv_obj.description,
+                                                'category': adv_obj.category,
+                                                })
+            print(len(adv_obj.services.all()))
+            Formset = formset_factory(ServicePriceForm, extra=1)
+            formset = Formset(initial=[{'name': x.name, 'price': x.price} for x in adv_obj.services.all()])
+
+            # advForm.fields['title'].widget.attrs('value','aslk')
+    elif request.method == 'POST':
+        advForm = AdverstimentForm(request.POST, request.FILES)
+        formset = service_formset(request.POST)
+        print("post")
+        # print(advForm)
+        if 'id' in kwargs.keys() and formset.is_valid() and advForm.is_bound and len(
+                advForm.errors) <= 1:
+
+            print(formset.cleaned_data)
+            advForm_data = advForm.cleaned_data
+            services = {item.get('name'): item.get('price') for item in formset.cleaned_data
+                        if item != None and item.get('name') != None and item.get('price') != None}
+            # print(services)
+
+            for item in formset.cleaned_data:
+                print(111, item, item.get('name'), item.get('price'))
+            # print(advForm_data)
+
+            advObj = Advertisment.objects.get(pk=kwargs['id'])
+
+            if 'title' in advForm_data.keys():
+                advObj.title = advForm_data.get('title')
+            if 'category' in advForm_data.keys():
+                advObj.category = advForm_data.get('category')
+            if 'task' in advForm_data.keys():
+                advObj.task = advForm_data.get('task')
+            if 'description' in advForm_data.keys():
+                advObj.description = advForm_data.get('description')
+            if 'image' in advForm_data.keys():
+                advObj.image = advForm_data.get('image')
+
+            # print(advObj, 11)
+            advObj.save()
+            # print(services)
+            for s in advObj.services.all():
+                s.delete()
+            advObj.services.clear()
+
+            for k, v in services.items():
+                s = Service(name=k, price=v)
+                s.save()
+                print(k, v)
+                advObj.services.add(s)
+
+            advObj.save()
+            messages.success(request, 'Advertisment Form Successfully Updated')
+            return redirect('mapp:handyman_adv')
+        else:
+            messages.warning(request, 'There is a problem with the form')
+        return redirect('mapp:advertisment_form')
+
+    return render(request, template_name, {
+        'form': advForm,
+        'formset': formset,
+    })
+
+
+def adv_view(request, **kwargs):
+    template_name = 'mapp/advertisment_form.html'
+    if request.method == 'GET':
+        if 'id' in kwargs.keys():
+            id = kwargs['id']
+            adv_obj = Advertisment.objects.get(pk=id)
+            advForm = AdverstimentForm(initial={'title': adv_obj.title,
+                                                'image': adv_obj.image,
+                                                'task': adv_obj.task,
+                                                'description': adv_obj.description,
+                                                'category': adv_obj.category,
+                                                })
+            print(len(adv_obj.services.all()))
+            Formset = formset_factory(ServicePriceForm, extra=0)
+            formset = Formset(initial=[{'name': x.name, 'price': x.price} for x in adv_obj.services.all()])
+
+            # advForm.fields['title'].widget.attrs('value','aslk')
+        else:
+            advForm = AdverstimentForm(request.GET or None)
+            formset = service_formset()
     elif request.method == 'POST':
         advForm = AdverstimentForm(request.POST, request.FILES)
         formset = service_formset(request.POST)
@@ -45,29 +135,35 @@ def adv_view(request):
         if advForm.is_valid() and formset.is_valid():
             print(formset.cleaned_data)
             advForm_data = advForm.cleaned_data
-            services = {item.get('name'):item.get('price') for item in formset.cleaned_data if  item and item.get('name') and  item.get('price') }
-            # print(services)
+            services = {item.get('name'): item.get('price') for item in formset.cleaned_data
+                        if item != None and item.get('name') != None and item.get('price') != None}
+            print(services)
+            for item in formset.cleaned_data:
+                print(111, item, item.get('name'), item.get('price'))
             # print(advForm_data)
+            print(type(advForm_data.get('image')))
             advObj = Advertisment(
                 title=advForm_data.get('title'),
                 handyman=request.user,
                 category=advForm_data.get('category'),
                 task=advForm_data.get('task'),
                 description=advForm_data.get('description'),
-                image= advForm_data.get('image')
+                image=advForm_data.get('image')
             )
-            print(advObj)
+            print(advObj, 11)
             advObj.save()
-            for k,v in services.items():
+            print(services)
+            for k, v in services.items():
                 s = Service(name=k, price=v)
                 s.save()
+                print(k, v)
                 advObj.services.add(s)
 
             advObj.save()
             messages.success(request, 'Advertisment Form Successfully saved')
             return redirect('mapp:home')
         else:
-            messages.warning(request,'There is a problem with the form')
+            messages.warning(request, 'There is a problem with the form')
         return redirect('mapp:advertisment_form')
 
     return render(request, template_name, {
@@ -131,11 +227,11 @@ class AdvertismentDetailView(FormMixin, DetailView):
         context['extra'] = context['advertisment'].services.all()
         context['form'] = ServiceForm(initial={'post': self.object})
 
-        #Check for if the user doesn't have a address or if the user is a guest
+        # Check for if the user doesn't have a address or if the user is a guest
         try:
             context['form'].fields['address'].widget.attrs['value'] = self.request.user.address
         except AttributeError:
-            context['form'].fields['address'].widget.attrs['value'] =' '
+            context['form'].fields['address'].widget.attrs['value'] = ' '
 
         # context['form'].fields['services'].choices = [(s.nameSlug, s.name) for s in self.object.getServices()]
         # print(context['form'])
@@ -207,6 +303,14 @@ class WorkView(ListView):
 
     def get_queryset(self):
         return Assignment.objects.filter(handyman=self.request.user)
+
+
+class HandymanAdvView(ListView):
+    template_name = "mapp/handyman_adv_list.html"
+    model = Advertisment
+
+    def get_queryset(self):
+        return Advertisment.objects.filter(handyman=self.request.user)
 
 
 # def assigm(request):

@@ -7,14 +7,17 @@ from django.urls import reverse
 from django.utils.text import slugify
 from django_countries.fields import CountryField
 from m_proj import settings
+from stdimage.models import StdImageField, JPEGField
 
 CATEGORY_CHOICES = (
     ('CA', 'Carpenter'),
     ('PL', 'Plumber'),
-    ('EL', 'Electrical Repairs'),
-    ('AC', 'AC Repairs'),
+    ('EL', 'Electrician'),
+    ('AC', 'Installations & Repairs'),
     ('PA', 'Painters'),
-    ('MC','Misc')
+    ('CL', 'Cleaning'),
+    ('PT', 'Pest Control'),
+    ('MC', 'Misc')
 )
 
 
@@ -25,7 +28,7 @@ class Service(models.Model):
     price = models.FloatField()
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.name) + str(uuid.uuid4())
+        self.slug = slugify(self.name) + str(uuid.uuid4())[:49]
         super(Service, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -44,21 +47,17 @@ class Advertisment(models.Model):
     category = models.CharField(choices=CATEGORY_CHOICES, max_length=3)
     # label = models.CharField(choices=LABEL_CHOICES, max_length=1)
     handyman = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    post_date = models.DateTimeField(auto_now_add=True)
-    slug = models.SlugField()
-    task = models.CharField(max_length=20)
+    postdate = models.DateTimeField(auto_now_add=True)
+    slug = models.SlugField(max_length=100)
+    task = models.CharField(max_length=200)
     description = models.TextField()
-    image = models.ImageField(upload_to="")
+    image = JPEGField(upload_to="", variations={
+        'thumbnail': {"width": 400, "height": 250, "crop": True}})
     services = models.ManyToManyField(Service)
 
-    # services = models.ForeignKey(Service, on_delete=models.CASCADE, blank=True, null=True)
-    # services = models.ManyToManyField(
-    #     to='mapp.Services',
-    #     related_name='advertisment_services',  # the name for that relation from the point of view of a skill
-    # )
-
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.title) + str(uuid.uuid4())
+        slug = slugify(self.title) + str(uuid.uuid4())
+        self.slug = slug[:50]
         super(Advertisment, self).save(*args, **kwargs)
 
     def get_absolute_url(self):
@@ -92,7 +91,7 @@ class Advertisment(models.Model):
 
     class Meta:
         db_table = "Advertisment"
-        ordering = ['post_date']
+        ordering = ['-postdate']
 
 
 class Assignment(models.Model):

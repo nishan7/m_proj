@@ -22,13 +22,13 @@ from .models import CustomUser
 class CustomUserCreationForm(UserCreationForm):
     class Meta(UserCreationForm):
         model = CustomUser
-        fields = ('email', 'mobile_number', 'password1', 'password2', 'is_employee')
+        fields = ('email', 'mobile_number', 'password1', 'password2', 'is_handyman',)
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['email'].widget.attrs['placeholder'] = 'Email Address'
         self.fields['email'].label = "New Email Label"
-        self.fields['is_employee'].label = "I want to work as an employee"
+        self.fields['is_handyman'].label = "I want to work as an Handyman"
         # self.fields['id email'].wid
 
 

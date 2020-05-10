@@ -22,6 +22,8 @@ urlpatterns = (
     path('work/', WorkView.as_view(), name='work'),
     path('portfolio/<id>', views.portfolioView, name='portfolio'),
     path('advertisment_form/',views.adv_view, name='advertisment_form'),
+    path('advertisment_form/<id>',views.adv_edit_view, name='advertisment_form_edit'),
+    path('handyman_adv/',HandymanAdvView.as_view(), name='handyman_adv'),
     # path('advertisment_form/', AdvertismentFormView.as_view(), name='advertisment_form'),
 
     # path('items/', HomeView.as_view(), name="item_list"),

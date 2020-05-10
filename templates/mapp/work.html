@@ -15,8 +15,14 @@
             <span class="badge badge-primary  badge-pill">{{ object_list | length }}</span>
         </h4>
 
-        <h3 align="center"><a href="{% url 'mapp:advertisment_form'%}">
-            <span class="badge badge-success  badge-pill">Add More Advertisments</span></a></h3>
+        <h5 align="center">
+            <a href="{% url 'mapp:handyman_adv' %}">
+                <span class="btn btn-primary ">Your Advertisments</span>
+            </a>
+            <a href="{% url 'mapp:advertisment_form' %}">
+                <span class="btn btn-success">Add More Advertisments</span>
+            </a>
+        </h5>
 
         <ul class="list-group mr-xl-2 ml-xl-2 mb-3 z-depth-1">
             {% for assigm in object_list %}

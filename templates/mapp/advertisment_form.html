@@ -109,19 +109,30 @@
                         <label>Services*</label>
                     </div>
                     <div class="col-8">
+
                         <div class="input-group mt-1 ">
                             <div class="col"> {{ form.name }}  </div>
                             <div class="col"> {{ form.price }}</div>
 
                             <div class="input-group-append">
-                                <button class="add-form-row success-color " id='add-form-id'><i
-                                        class="fa fa-plus fa-fw fa-inverse" aria-hidden="true"></i></button>
+                                {% if form.name.value  %}
+                                    <button class="remove-form-row danger-color " id='add-form-id'><i
+                                            class="fa fa-times fa-fw fa-inverse" aria-hidden="true"></i></button>
+                                {% else %}
+                                    <button class="add-form-row success-color " id='add-form-id'><i
+                                            class="fa fa-plus fa-fw fa-inverse" aria-hidden="true"></i></button>
+                                {% endif %}
+
                                 {#                                <button class="btn btn-success -autoprefixer add-form-row" id='add-form-id'><i class="fa fa-xs fixed-bottom fa-times" aria-hidden="true"></i></button>#}
                             </div>
+
                         </div>
+
                     </div>
                 </div>
             {% endfor %}
+            <br>
+            <p>Note: Leave price as &#8377;0 for custom pricing</p>
 
 
             <div class=" mt-5 row spacer">

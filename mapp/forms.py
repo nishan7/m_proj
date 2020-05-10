@@ -64,6 +64,7 @@ service_formset = formset_factory(ServicePriceForm, extra=1)
 
 
 
+
 class AdverstimentForm(forms.ModelForm):
     # name = forms.CharField(
     #     widget=forms.TextInput(attrs={

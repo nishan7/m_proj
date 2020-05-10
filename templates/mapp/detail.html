@@ -21,27 +21,6 @@
                 <form class="mr-3 ml-3" method="post">
                     {% csrf_token %}
                     {% crispy form %}
-                    {#                    {{ form|crispy }}#}
-                    {#                    {{ form.as_p }}#}
-                    {#                    {% crispy form form.helper %}#}
-                    {#                    <div class="modal-body mx-3">#}
-                    {#                        {{ object.tite }} by {{ object.getHandymanName }}#}
-                    {#                        {{ object. }}#}
-                    {#                        {% for service in object.getServices %}#}
-                    {#                            <div class="custom-control custom-checkbox">#}
-                    {#                                <input type="checkbox" class="custom-control-input" id="{{ service.nameSlug}}"#}
-                    {#                                       name="{{ service.nameSlug}}">#}
-                    {#                                <label class="custom-control-label"#}
-                    {#                                       for="{{ service.nameSlug }}">{{ service.name }},{{ service.price }}</label>#}
-                    {#                                <br>#}
-                    {#                            </div>#}
-                    {#                        {% empty %}#}
-                    {#                            No values#}
-                    {#                        {% endfor %}#}
-                    {##}
-                    {##}
-                    {#                    </div>#}
-                    {##}
                     <div class="modal-footer d-flex justify-content-center">
                         <button class="btn btn-default" type="submit">Book</button>
                     </div>
