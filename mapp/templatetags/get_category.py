@@ -15,8 +15,22 @@ register = template.Library()
 @register.simple_tag
 def get_total_price(user, object_list):
     tp =0
+    print(type(object_list))
     for assigm in object_list:
-        tp += assigm.price
+        for service in assigm.services.all():
+            if type(service.price) == float:
+                tp += service.price
+    if tp >0:
+        return str(tp)
+    else:
+        return 'Custom'
+
+@register.simple_tag
+def get_assigm_price(user, assigm):
+    tp =0
+    for service in assigm.services.all():
+        if type(service.price) == float:
+            tp += service.price
     print(tp)
     return tp
 

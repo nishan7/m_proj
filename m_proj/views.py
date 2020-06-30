@@ -10,4 +10,4 @@ class ThanksPage(TemplateView):
 
 
 class HomePage(TemplateView):
-    template_name = "mapp/index.html"
+    template_name = "mapp/home.html"

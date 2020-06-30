@@ -14,11 +14,6 @@ class SignUp(CreateView):
     # template_name = ''
 
 
-# class LoggedOut(TemplateView, r):
-#     logout(request=r)
-#     template_name = 'accounts/logged_out.html'
-
-
 @login_required
 def logged_out(request):
     logout(request)

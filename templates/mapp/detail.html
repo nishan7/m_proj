@@ -56,49 +56,26 @@
                             </a>
                         </div>
 
-                        <p class="lead">
-                            {% if object.discount_price %}
-                                <span class="mr-1">
-                                    <del>${{ object.price }}</del>
-                                </span>
-                                <span>${{ object.discount_price }}</span>
-                            {% else %}
-                                <span>${{ object.price }}</span>
-                            {% endif %}
-                        </p>
 
                         <p class="lead font-weight-bold">Description</p>
 
                         <p>{{ object.description }}</p>
 
-                        {% comment %} <form class="d-flex justify-content-left">
-              <!-- Default input -->
-              <input type="number" value="1" aria-label="Search" class="form-control" style="width: 100px">
-              <button class="btn btn-primary btn-md my-0 p" type="submit">
-                Add to cart
-                <i class="fas fa-shopping-cart ml-1"></i>
-              </button>
-
-            </form> {% endcomment %}
-                        {#              {{object.is_booked}}#}
-                        {#                    {{ user }}#}
-                        {#                    {{ object }}#}
-                        {#                    {{ object.handyman }}#}
-                        {% is_booked user object object.handyman as booking_status %}
-
-                        {% if  booking_status %}
-                            <a href="{{ object.unbook }}" class="btn btn-danger btn-md my-0 p">
-                                Unbook
-                                <i class="fas fa-shopping-cart ml-1"></i>
-                            </a>
-                        {% else %}
-                            {#                            <a href="{{ object.book }}" class="btn btn-primary btn-md my-0 p">#}
-                            <a href="" data-toggle="modal" data-target="#serviceChooser"
-                               class="btn btn-primary btn-md my-0 p">
-                                Book
-                                <i class="fas fa-shopping-cart ml-1"></i>
-                            </a>
-
+                        {% if not  user.is_handyman %}
+                            {% is_booked user object object.handyman as booking_status %}
+                            {% if  booking_status %}
+                                <a href="{{ object.unbook }}" class="btn btn-danger btn-md my-0 p">
+                                    Unbook
+                                    <i class="fas fa-shopping-cart ml-1"></i>
+                                </a>
+                            {% else %}
+                                {#                            <a href="{{ object.book }}" class="btn btn-primary btn-md my-0 p">#}
+                                <a href="" data-toggle="modal" data-target="#serviceChooser"
+                                   class="btn btn-primary btn-md my-0 p">
+                                    Book
+                                    <i class="fas fa-shopping-cart ml-1"></i>
+                                </a>
+                            {% endif %}
                         {% endif %}
 
 
@@ -122,7 +99,8 @@
                     <h4 class="my-4 h4">Handyman</h4>
                     <p class="text-decoration-none">
                         <a href="{% url 'mapp:portfolio' id=object.handyman_id %}">
-                            {{ object.handyman.get_cache_name }}
+                            <span >
+                            {{ object.handyman.get_cache_name }}</span>
                         </a>
                     </p>
                 </div>

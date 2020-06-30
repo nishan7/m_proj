@@ -1,4 +1,7 @@
 # Create your models here.
+from datetime import datetime, timedelta
+
+import pytz
 from django.contrib.auth.models import AbstractBaseUser
 from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.models import PermissionsMixin
@@ -9,6 +12,7 @@ from django.utils.translation import gettext_lazy as _
 from phonenumber_field.modelfields import PhoneNumberField
 
 from .managers import CustomUserManager
+from mapp.models import Assignment
 
 
 # class User(md.User):
@@ -16,6 +20,16 @@ from .managers import CustomUserManager
 #
 #     def __str__(self):
 #         return "@{}".format(self.username)
+
+# Stores the dates to show when the handyman are busy
+class Dates(models.Model):
+    date = models.DateTimeField()
+    assignment_id = models.ForeignKey(Assignment, on_delete=models.CASCADE)
+
+    def __str__(self):
+        india = pytz.timezone('Asia/Kolkata')
+        current = india.normalize(self.date)
+        return current.strftime('%A, %dth %b %Y at %I:00 %p')
 
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):
@@ -29,6 +43,8 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     is_employee = models.BooleanField(default=False)
     is_handyman = models.BooleanField(default=False)
     job = models.CharField(max_length=50)
+    dates_booked = models.ManyToManyField(Dates)
+
     address = models.CharField(max_length=200, default=False)
 
     USERNAME_FIELD = 'email'
@@ -51,12 +67,5 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     def get_date_joined_short(self):
         return self.date_joined.strftime('%d %b %Y')
 
-#
-# class CustomUser(AbstractUser):
-#     email = models.EmailField(unique=True)
-#     username=models.CharField(blank=True, null=True)
-#     REQUIRED_FIELDS = ['email', 'username']
-#     mobile_number = PhoneNumberField(unique=True)
-#
-#     def __str__(self):
-#         return self.email
+    # Get the avaiable date for the week for the handyman
+

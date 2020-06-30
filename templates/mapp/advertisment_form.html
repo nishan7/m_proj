@@ -115,7 +115,7 @@
                             <div class="col"> {{ form.price }}</div>
 
                             <div class="input-group-append">
-                                {% if form.name.value  %}
+                                {% if form.name.value %}
                                     <button class="remove-form-row danger-color " id='add-form-id'><i
                                             class="fa fa-times fa-fw fa-inverse" aria-hidden="true"></i></button>
                                 {% else %}
@@ -141,59 +141,12 @@
                 </div>
             </div>
 
-
-            {#                        </div> <input type="submit" name="submit" value="Submit"#}
-            {#                 class="btn btn-primary flex-center align-content-center "#}
-            {#                 id="submit-id-submit">#}
         </form>
 
 
     </div>
+    <br><br>
 
-    {##}
-    {#    <div class="container-fluid mt-5 w-50 align-content-center">#}
-    {#        <form method="post" novalidate>#}
-    {#            {% csrf_token %}#}
-    {##}
-    {#            {% for hidden_field in form.hidden_fields %}#}
-    {#                {{ hidden_field }}#}
-    {#            {% endfor %}#}
-    {##}
-    {#            {% if form.non_field_errors %}#}
-    {#                <div class="alert alert-danger" role="alert">#}
-    {#                    {% for error in form.non_field_errors %}#}
-    {#                        {{ error }}#}
-    {#                    {% endfor %}#}
-    {#                </div>#}
-    {#            {% endif %}#}
-    {##}
-    {#            {% for field in form.visible_fields %}#}
-    {#                <div class="form-group row inline_label">#}
-    {#                    {{ field.label_tag }}#}
-    {##}
-    {#                    {% if form.is_bound %}#}
-    {#                        {% if field.errors %}#}
-    {#                            {% render_field field class="form-control is-invalid" %}#}
-    {#                            {% for error in field.errors %}#}
-    {#                                <div class="invalid-feedback">#}
-    {#                                    {{ error }}#}
-    {#                                </div>#}
-    {#                            {% endfor %}#}
-    {#                        {% else %}#}
-    {#                            {% render_field field class="form-control is-valid" %}#}
-    {#                        {% endif %}#}
-    {#                    {% else %}#}
-    {#                        {% render_field field class="form-control inline" %}#}
-    {#                    {% endif %}#}
-    {##}
-    {#                    {% if field.help_text %}#}
-    {#                        <small class="form-text text-muted">{{ field.help_text }}</small>#}
-    {#                    {% endif %}#}
-    {#                </div>#}
-    {#            {% endfor %}#}
-    {##}
-    {#            <button type="submit" class="btn btn-primary">Submit</button>#}
-    {#        </form>#}
-    {#    </div>#}
+
 
 {% endblock %}

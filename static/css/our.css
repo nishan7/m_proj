@@ -16,7 +16,12 @@
     display: flex;
 }
 
-
+a.unlink {
+  color: inherit;
+}
+a.unlink:hover {
+  color: inherit;
+}
 
 .home-page-image {
     width: 100%;

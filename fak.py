@@ -1,6 +1,6 @@
 from mapp.models import *
 from accounts.models import CustomUser
-
+from django.utils.text import slugify
 from faker import Faker
 import names
 
@@ -43,4 +43,8 @@ def accounts(num=5):
         )
         obj.save()
 
-accounts(2)
+# accounts(2)
+for s in Service.objects.all():
+    # s.nameSlug = slugify(s.name) + str(uuid.uuid4())
+    # s.save()
+    print( s.nameSlug)

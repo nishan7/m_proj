@@ -4,22 +4,14 @@ from django import forms
 # from django_countries.widgets import CountrySelectWidget
 from crispy_forms.helper import FormHelper
 from django.forms import TypedMultipleChoiceField, formset_factory, inlineformset_factory
-
 from .models import Advertisment, Service
-
-# PAYMENT_CHOICES = (
-#     ('S', 'Stripe'),
-#     ('P', 'PayPal')
-# )
-# from django.forms import DateInput
-from bootstrap_datepicker_plus import DatePickerInput, DateTimePickerInput
-# from datetimepicker.widgets import DateTimePicker
 from crispy_forms.layout import Layout, Fieldset, ButtonHolder, Submit, Div
 
 
-class ServiceForm(forms.Form):
+# To generate the forms after the user click 'Book' button on the advertisments
+class BookForm(forms.Form):
     def __init__(self, *args, **kwargs):
-        super(ServiceForm, self).__init__(*args, **kwargs)
+        super(BookForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.form_id = 'id_serviceForm'
         self.helper.form_class = 'blueForms'
@@ -30,15 +22,22 @@ class ServiceForm(forms.Form):
             # print(kwargs['initial']['post'].getServices(), '**')
             self.fields['services'] = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple)
             self.fields['services'].choices = [(s.nameSlug, s) for s in kwargs['initial']['post'].getServices()]
+            self.fields['services'].required = True
+
+            self.fields['appointment_date'] = forms.ChoiceField()
+            self.fields['appointment_date'].choices = [
+                (s.strftime('%A, %dth %b %Y at %I:00 %p'), s.strftime('%A, %dth %b %Y at %I:00 %p')) for s in
+                kwargs['initial']['available_dates']]
+            self.fields['appointment_date'].required = True
 
     # a = forms.CharField(required=False)
     # choices = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple())
-    appointment_date = forms.DateField(
-        widget=(forms.DateTimeInput(format='%d/%m/%Y %H:%M', attrs={'placeholder': 'dd/mm/YYYY HH:MM'})))
+    appointment_date = forms.ChoiceField()
     services = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple)
     address = forms.CharField(max_length=500)
 
 
+#  ServicePriceForm for the upadating the advertisment by the handyman
 class ServicePriceForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(ServicePriceForm, self).__init__(*args, **kwargs)
@@ -50,8 +49,10 @@ class ServicePriceForm(forms.ModelForm):
         self.helper.form_tag = False
         self.help_text_inline = True
 
-        self.fields['name'] = forms.CharField(max_length=225, widget=forms.TextInput(attrs={'class': 'form-control','placeholder':'Name of Service'}))
-        self.fields['price'] = forms.FloatField(widget=forms.NumberInput(attrs={'class': 'form-control', 'placeholder':'Price \u20B9'}))
+        self.fields['name'] = forms.CharField(max_length=225, widget=forms.TextInput(
+            attrs={'class': 'form-control', 'placeholder': 'Name of Service'}))
+        self.fields['price'] = forms.FloatField(
+            widget=forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Price \u20B9'}))
 
     class Meta:
         model = Service
@@ -61,17 +62,7 @@ class ServicePriceForm(forms.ModelForm):
 service_formset = formset_factory(ServicePriceForm, extra=1)
 
 
-
-
-
-
 class AdverstimentForm(forms.ModelForm):
-    # name = forms.CharField(
-    #     widget=forms.TextInput(attrs={
-    #         'class': 'form-control',
-    #         'placeholder': 'Enter Book Name here'
-    #     })
-    # )
 
     def __init__(self, *args, **kwargs):
         super(AdverstimentForm, self).__init__(*args, **kwargs)
@@ -103,8 +94,3 @@ class AdverstimentForm(forms.ModelForm):
     class Meta:
         model = Advertisment
         fields = ['title', 'category', 'task', 'description', 'image']
-
-# class AdverstimentForm(forms.ModelForm):
-#     class Meta:
-#         model= Advertisment
-#         fields = ['title','price','handyman','task']

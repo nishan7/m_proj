@@ -1,5 +1,0 @@
-id,password,last_login,is_superuser,email,is_staff,is_active,date_joined,mobile_number,seller,name
-1,bcrypt_sha256$$2b$12$Q4.HdjsXn6oYPAZ0roG8s.qOVOYW6iOUgIBcduw0Gfd1Bl0chqGTy,,0,nishan.paudel1914@gmail.com,0,1,2020-01-18 17:45:41.986866,+919035468097,0,Nishan Paudel
-2,bcrypt_sha256$$2b$12$hLevo/uy4NKQhvIH4s.f0ee1GFo93LPwbzt5GoylD2VDUOWIbFZwG,2020-01-19 05:49:05.024284,0,kal@kjlfds.clkas,0,1,2020-01-18 17:47:24.585230,,0,kal Drogo
-3,bcrypt_sha256$$2b$12$/3c2Gi2hZwjKRkrYyrGpaOQ19PQdX5iOEwl0fAfNZQG6g/AexonDu,,0,sadf@gksl.com,0,1,2020-01-19 04:40:43.410238,+919035468099,1,Von hander
-4,bcrypt_sha256$$2b$12$EpjQGO/L2BCuuyzqJgquGOWiZqpk3DufXNaSfl6ArJG45CMDjSFsW,2020-01-21 18:37:18.816480,1,ni@gmail.com,1,1,2020-01-19 06:14:14.205321,,0,Pepe
