@@ -9,9 +9,7 @@ products==0.1.0
 Unidecode==1.1.1
 
 django-bootstrap4==1.1.1
-django-chatter==1.0.7
-django-datetimepicker==3.14
 django-stdimage==5.1.1
-python-dateutil==2.8.1
+
 
 
