@@ -1,7 +1,5 @@
 django==2.2
-wheel==0.34.2
 Faker==4.17.1
-pip==20.2.3
 pytz==2017.3
 termcolor==1.1.0
 django_crispy_forms==1.10.0
