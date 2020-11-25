@@ -28,6 +28,6 @@ urlpatterns = [
                   path('', include('mapp.urls', namespace='mapp')),
 
                   path('accounts/', include('accounts.urls')),
-                  path('__debug__/', include(debug_toolbar.urls)),
+                  # path('__debug__/', include(debug_toolbar.urls)),
                   path("accounts/", include("django.contrib.auth.urls")),  # For django built-in authentication
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

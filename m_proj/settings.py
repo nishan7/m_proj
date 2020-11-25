@@ -30,9 +30,9 @@ MEDIA_DIR = os.path.join(BASE_DIR, "media")
 SECRET_KEY = 'enus9gwi%au-8&53h9mmrd@hp5-3jk#z^mu!t_^9jp2002^8su'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['nishanpaudel.pythonanywhere.com']
+ALLOWED_HOSTS = ['127.0.0.1','nishanpaudel.pythonanywhere.com']
 
 # Application definition
 
@@ -42,18 +42,17 @@ INSTALLED_APPS = [
     'mapp',
     'accounts',
     'django.contrib.admin',
-    'phonenumber_field',
     'bootstrap4',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django_countries',
+    # 'django_countries',
     'crispy_forms',
-    'debug_toolbar',
+    # 'debug_toolbar',
 
-    'widget_tweaks',
+    # 'widget_tweaks',
 ]
 
 # 'bootstrap_datepicker_plus',
@@ -68,7 +67,7 @@ MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
+    # 'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
