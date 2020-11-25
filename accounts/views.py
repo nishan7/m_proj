@@ -17,7 +17,6 @@ class SignUp(CreateView):
 @login_required
 def logged_out(request):
     logout(request)
-    # return render(request, 'accounts/logged_out.html')
     return redirect('mapp:home')
 
 

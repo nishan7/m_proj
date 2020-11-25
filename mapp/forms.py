@@ -1,11 +1,12 @@
-from crispy_forms.layout import Submit, Field, MultiField, Row, Column
-from django import forms
 # from django_countries.fields import CountryField
 # from django_countries.widgets import CountrySelectWidget
 from crispy_forms.helper import FormHelper
-from django.forms import TypedMultipleChoiceField, formset_factory, inlineformset_factory
+from crispy_forms.layout import Field
+from crispy_forms.layout import Layout, Div
+from django import forms
+from django.forms import formset_factory
+
 from .models import Advertisment, Service
-from crispy_forms.layout import Layout, Fieldset, ButtonHolder, Submit, Div
 
 
 # To generate the forms after the user click 'Book' button on the advertisments

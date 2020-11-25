@@ -1,26 +1,19 @@
 from datetime import datetime, timedelta
 
 import pytz
-import reusables
-from django.forms import formset_factory
-from django.conf import settings
 from django.contrib import messages
-from termcolor import cprint
-from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect
-from django.views.generic.edit import FormMixin
-from django.shortcuts import render, get_object_or_404
-from django.urls import resolve
-from django.views.generic import ListView, DetailView, View
 from django.shortcuts import redirect
+from django.shortcuts import render
 from django.utils import timezone
+from django.views.generic import ListView, DetailView
+from django.views.generic.edit import FormMixin
+from termcolor import cprint
 
-from .models import *
-from .forms import *
 from accounts.models import CustomUser, Dates
-from django.db.models import Sum
+from .forms import *
+from .models import *
 
 
 # TODO forms for assigment viewer
@@ -39,7 +32,7 @@ def chat(request, **kwargs):
         senderName = client_obj.get_first_name()
         receiverName = handyman_obj.get_first_name()
 
-    if request.method=='POST':
+    if request.method == 'POST':
         message = request.POST['message']
         sender = request.user
         message_obj = Message(text=message, sender=sender)
@@ -53,18 +46,20 @@ def chat(request, **kwargs):
         chat = Chat.objects.get(client=client_obj, handyman=handyman_obj)
     except:
         messages = []
-        return render(request, 'mapp/chat.html', {'chat_messages': messages, 'sender':senderName, 'reciever':receiverName})
+        return render(request, 'mapp/chat.html',
+                      {'chat_messages': messages, 'sender': senderName, 'reciever': receiverName})
 
     if chat:
         # Store the messages in the list, True in sender means the user which request page has written this particular
         # message
-        messages = [(message.text, str(message.sender_id) == str(request.user.id) ) for message in chat.message.all()]
+        messages = [(message.text, str(message.sender_id) == str(request.user.id)) for message in chat.message.all()]
 
     else:
         messages = []
     print(messages)
 
-    return render(request, 'mapp/chat.html', {'chat_messages': messages, 'sender':senderName, 'reciever':receiverName})
+    return render(request, 'mapp/chat.html',
+                  {'chat_messages': messages, 'sender': senderName, 'reciever': receiverName})
 
 
 @login_required
@@ -335,7 +330,8 @@ def get_available_dates(handyman_obj):
 
 
     else:
-        start_date = india.localize(datetime(year=current.year, month=current.month, day=current.day, hour=9)+timedelta(days=1))
+        start_date = india.localize(
+            datetime(year=current.year, month=current.month, day=current.day, hour=9) + timedelta(days=1))
         ctr = 0
         while True:
             if start_date not in booked_dates:
@@ -362,7 +358,7 @@ class AdvertismentDetailView(FormMixin, DetailView):
     template_name = "mapp/detail.html"
     form_class = BookForm
 
-    # def book_adv(self):
+    # def bookd_adv(self):
     #     print("Book")
 
     def get_context_data(self, **kwargs):
@@ -479,5 +475,3 @@ def unbook(request, id):
     adv.delete()
     messages.warning(request, f"{title} has been unbooked.")
     return HttpResponseRedirect(request.META.get('HTTP_REFERER', ))
-
-

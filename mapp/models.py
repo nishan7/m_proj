@@ -1,13 +1,12 @@
 import uuid
 
 from django.contrib.auth.models import User
-from django.conf import settings
 from django.db import models
 from django.urls import reverse
 from django.utils.text import slugify
-from django_countries.fields import CountryField
+from stdimage.models import JPEGField
+
 from m_proj import settings
-from stdimage.models import StdImageField, JPEGField
 
 CATEGORY_CHOICES = (
     ('CA', 'Carpenter'),
@@ -20,6 +19,7 @@ CATEGORY_CHOICES = (
     ('MC', 'Misc')
 )
 
+
 class Message(models.Model):
     text = models.CharField(max_length=1024)
     sender = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='sender')
@@ -28,11 +28,11 @@ class Message(models.Model):
         if not self.text:
             return ' '
 
+
 class Chat(models.Model):
     client = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='chat_client')
     handyman = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='chat_handyman')
     message = models.ManyToManyField(Message)
-
 
 
 class Service(models.Model):
@@ -42,7 +42,7 @@ class Service(models.Model):
     price = models.FloatField()
 
     def save(self, *args, **kwargs):
-        s= slugify(self.name) + str(uuid.uuid4())
+        s = slugify(self.name) + str(uuid.uuid4())
         self.nameSlug = s
         print(self.nameSlug)
         super(Service, self).save(*args, **kwargs)
@@ -135,4 +135,3 @@ class Assignment(models.Model):
     class Meta:
         db_table = "Assignment"
         ordering = ['-appointment_date']
-
