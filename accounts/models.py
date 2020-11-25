@@ -1,5 +1,4 @@
 # Create your models here.
-from datetime import datetime, timedelta
 
 import pytz
 from django.contrib.auth.models import AbstractBaseUser
@@ -7,12 +6,10 @@ from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.models import PermissionsMixin
 from django.db import models
 from django.utils import timezone
-import time
-from django.utils.translation import gettext_lazy as _
 from phonenumber_field.modelfields import PhoneNumberField
 
-from .managers import CustomUserManager
 from mapp.models import Assignment
+from .managers import CustomUserManager
 
 
 # class User(md.User):
@@ -68,4 +65,3 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         return self.date_joined.strftime('%d %b %Y')
 
     # Get the avaiable date for the week for the handyman
-
