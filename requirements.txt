@@ -11,7 +11,6 @@ products==0.1.0
 Unidecode==1.1.1
 
 django-phone-field
-bootstrap4==0.1.0
 django-bootstrap4==1.1.1
 django-braces==1.14.0
 django-chatter==1.0.7
