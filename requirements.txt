@@ -11,4 +11,3 @@ nepali_roman==0.45.1.1
 products==0.1.0
 Unidecode==1.1.1
 django-bootstrap4
-django-crispy-forms
