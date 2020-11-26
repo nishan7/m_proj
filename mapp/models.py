@@ -6,6 +6,7 @@ from django.urls import reverse
 from django.utils.text import slugify
 from stdimage.models import JPEGField
 
+
 from m_proj import settings
 
 CATEGORY_CHOICES = (
