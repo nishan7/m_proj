@@ -1,3 +1,0 @@
-
-python manage.py migrate --fake mapp zero
-python manage.py migrate --fake-initial
