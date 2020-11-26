@@ -1,0 +1,146 @@
+{% extends "mapp/base.html" %}
+{% load get_category %}
+
+{% block head_title %}
+    Dwelling
+{% endblock %}
+
+{% block content %}
+    <main>
+        <div class="container">
+            <!--Navbar-->
+            <nav class="navbar navbar-expand-lg navbar-dark mdb-color lighten-3 mt-3 mb-5">
+                <!-- Navbar brand -->
+                <span class="navbar-brand">Categories:</span>
+                <!-- Collapse button -->
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#basicExampleNav"
+                        aria-controls="basicExampleNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <!-- Collapsible content -->
+                <div class="collapse navbar-collapse" id="basicExampleNav">
+                    <!-- Links -->
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item active">
+                            <a class="nav-link" href="{% url 'mapp:home' %}">All
+                                <span class="sr-only">(current)</span>
+                            </a>
+                        </li>
+                        {% get_category_tuples as category_values %}
+                        {% for key, value in category_values %}
+                            <li class="nav-item">
+                                <a class="nav-link"
+                                   id={{ key }} href="{% url 'mapp:category-home' category=key %}"> {{ value }} </a>
+                            </li>
+                        {% endfor %}
+
+                    </ul>
+
+                    <!-- Links -->
+                    <form class="form-inline" action="{% url 'mapp:home' %}">
+                        <div class="md-form my-0">
+                            <input class="form-control mr-sm-2" id='home-search-input' type="text" name="search"
+                                   placeholder="Search" aria-label="Search">
+                        </div>
+                    </form>
+                </div>
+                <!-- Collapsible content -->
+            </nav>
+            <!--/.Navbar-->
+
+            <!--Section: Products v.3-->
+            <section class=" mb-4">
+                {#                <div class="row wow fadeIn mr-0 ml-0 mw-100">#}
+                {% for item in object_list %}
+                    <div class="container-fluid">
+                        <div class="mw-100  d-flex flex-fill card mb-n1  home-page-card "
+                             href="{{ item.get_absolute_url }}">
+                            {#                            <a href="{{ item.get_absolute_url }}">#}
+                            <div class=" row no-gutters ">
+                                {#<div class="col-md-4">#}
+                                <div class="col-4 ">
+                                    <a href="{{ item.get_absolute_url }}">
+                                        <img src="{{ item.image.thumbnail.url }}" class="card-img-top home-page-image">
+                                        <div class="mask rgba-white-slight"></div>
+                                    </a>
+                                </div>
+
+                                <div class="col-8">
+                                    <div class="card-body ml-5 mw-100">
+                                        <a href="" class="grey-text">
+                                            <h5>{{ item.get_category_display }}</h5>
+                                        </a>
+                                        {#  <h5 class="card-title">{{ item.title }}</h5>#}
+                                        <h5>
+                                            <strong>
+                                                <a href="{{ item.get_absolute_url }}"
+                                                   class="dark-grey-text">{{ item.title }}
+                                                    {#                                                    <span class="badge badge-pill {{ item.get_label_display }}-color">NEW</span>#}
+                                                </a>
+                                            </strong>
+                                        </h5>
+
+                                        <h4 class="text-muted small">
+                                            {{ item.description }}
+                                        </h4>
+
+                                    </div>
+                                </div>
+
+                                {#                                </div>#}
+                            </div>
+
+                        </div>
+                        <br>
+                        {#                        </a>#}
+                    </div>
+                {% empty %}
+                    <h3>Nothing in here :(</h3>
+                {% endfor %}
+                {#                </div>#}
+
+            </section>
+            <!--Section: Products v.3-->
+
+            <!--Pagination-->
+
+            {% if is_paginated %}
+                <nav class="d-flex justify-content-center wow fadeIn">
+                    <ul class="pagination pg-blue">
+
+                        {% if page_obj.has_previous %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.previous_page_number }}"
+                                   aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                    <span class="sr-only">Previous</span>
+                                </a>
+                            </li>
+                        {% endif %}
+
+                        <li class="page-item active">
+                            <a class="page-link" href="?page={{ page_obj.number }}">{{ page_obj.number }}
+                                <span class="sr-only">(current)</span>
+                            </a>
+                        </li>
+
+                        {% if page_obj.has_next %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                    <span class="sr-only">Next</span>
+                                </a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+            {% endif %}
+
+        </div>
+    </main>
+
+{% endblock content %}
+{% block extra_scripts %}
+    {% include "mapp/footer.html" %}
+{% endblock extra_scripts %}
+
