@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+{#    <title>BASE PAGE</title>#}
+    {% block header %}
+    {% endblock %}
+
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}"/>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}"/>
+
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light" , role="navigation" id="navbar">
+    <div class="container">
+        <li><a href='{% url "mapp:home" %}' class="navbar-brand">Main </a></li>
+        <ul class="nav navbar-nav navbar-right">
+
+            {% if user.is_authenticated %}
+                <li><a class="navbar" href="{% url 'accounts:logout' %}">Logout</a></li>
+                <li><a class="navbar" href="#">You</a></li>
+            {% else %}
+                <li><a class="navbar" href="{% url 'accounts:login' %}">Login</a></li>
+                <li><a class="navbar" href="{% url 'accounts:signup' %}">Sign Up</a></li>
+            {% endif %}
+        </ul>
+
+    </div>
+</nav>
+
+<div class="container">
+    {% block content %}
+    {% endblock %}
+</div>
+
+
+</body>
+</html>
